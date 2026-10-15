@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package ping;
+
+service Pinger {
+  rpc Ping(PingRequest) returns (PingReply);                     // unary: 1 request -> 1 reply
+  rpc PingClientStream(stream PingRequest) returns (PingReply);  // client streaming: many requests -> 1 reply
+  rpc PingServerStream(PingRequest) returns (stream PingReply);  // server streaming: 1 request -> many replies
+}
+
+message PingRequest {
+  bytes payload = 1;
+  int32 count = 2;  // server streaming only: how many replies the server should send
+}
+
+message PingReply {
+  bytes payload = 1;
+  int32 count = 2;  // client streaming only: how many requests the server received
+}
