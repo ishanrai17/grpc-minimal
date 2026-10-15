@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: ping-server}
+spec:
+  selector: {matchLabels: {app: ping-server}}
+  template:
+    metadata: {labels: {app: ping-server}}
+    spec:
+      containers:
+        - {name: server, image: "grpc-server:dev"}
+        - {name: http-server, image: "grpc-server:dev", command: [python, http_server.py]}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: ping-server}
+spec:
+  selector: {app: ping-server}
+  ports: [{name: grpc, port: 50051}, {name: http, port: 8080}]
