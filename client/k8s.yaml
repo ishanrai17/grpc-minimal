@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: ping-client}
+spec:
+  selector: {matchLabels: {app: ping-client}}
+  template:
+    metadata: {labels: {app: ping-client}}
+    spec:
+      terminationGracePeriodSeconds: 0
+      containers: [{name: client, image: "grpc-client:dev"}]
